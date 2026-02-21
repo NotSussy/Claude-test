@@ -1,0 +1,15 @@
+{
+  "name": "mc-bedrock-connector",
+  "version": "1.0.0",
+  "description": "Web-based Minecraft Bedrock connector - lets PS4/console players join your Geyser server via DNS redirect",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:root": "sudo node server.js"
+  },
+  "dependencies": {
+    "bedrock-protocol": "^3.32.0",
+    "dns2": "^2.1.0",
+    "express": "^4.18.2"
+  }
+}

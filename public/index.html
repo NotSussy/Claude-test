@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MC Bedrock Connector</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <span class="logo">⛏</span>
+      <div>
+        <h1>MC Bedrock Connector</h1>
+        <p class="tagline">Let your PS4 / console friends join your Geyser server — no app needed</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ── Status bar ──────────────────────────────────────────────────── -->
+    <section class="card status-card">
+      <h2>Status</h2>
+      <div class="status-grid">
+        <div class="status-item" id="s-dns">
+          <span class="dot"></span>
+          <span class="label">DNS Server</span>
+          <span class="value" id="s-dns-val">checking…</span>
+        </div>
+        <div class="status-item" id="s-bedrock">
+          <span class="dot"></span>
+          <span class="label">Bedrock Redirect</span>
+          <span class="value" id="s-bedrock-val">checking…</span>
+        </div>
+        <div class="status-item" id="s-target">
+          <span class="dot"></span>
+          <span class="label">Target Server</span>
+          <span class="value" id="s-target-val">not configured</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Configuration ───────────────────────────────────────────────── -->
+    <section class="card">
+      <h2>Server Configuration</h2>
+      <p class="hint">Enter the address of your Geyser server (the server your friend should end up on).</p>
+
+      <form id="config-form">
+        <div class="form-row">
+          <label for="targetHost">Geyser Server Address</label>
+          <input type="text" id="targetHost" name="targetHost"
+                 placeholder="e.g. play.myserver.com or 123.45.67.89" required />
+        </div>
+
+        <div class="form-row two-col">
+          <div>
+            <label for="targetPort">Geyser Port
+              <span class="hint-inline">(Bedrock port Geyser listens on)</span>
+            </label>
+            <input type="number" id="targetPort" name="targetPort"
+                   value="19132" min="1" max="65535" />
+          </div>
+          <div>
+            <label for="bedrockListenPort">Redirect Server Port
+              <span class="hint-inline">(must be 19132 for console)</span>
+            </label>
+            <input type="number" id="bedrockListenPort" name="bedrockListenPort"
+                   value="19132" min="1" max="65535" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="bedrockVersion">Bedrock Version
+            <span class="hint-inline">(must match your friend's Minecraft version)</span>
+          </label>
+          <input type="text" id="bedrockVersion" name="bedrockVersion"
+                 placeholder="e.g. 1.21.50" value="1.21.50" />
+        </div>
+
+        <div class="alert" id="port-warning" style="display:none">
+          ⚠ Both ports are set to <strong>19132</strong>. If Geyser is running on
+          <em>this same machine</em>, there will be a port conflict. Either run Geyser
+          on a different port (change in Geyser's config.yml) or run this tool on a
+          separate machine.
+        </div>
+
+        <button type="submit" class="btn-primary">Save &amp; Apply</button>
+        <span class="save-msg" id="save-msg"></span>
+      </form>
+    </section>
+
+    <!-- ── Your server's IP (for PS4 DNS) ─────────────────────────────── -->
+    <section class="card">
+      <h2>Your Server's IP Address</h2>
+      <p class="hint">
+        This is the IP you'll enter as the <strong>Primary DNS</strong> on the PS4.
+        Make sure this machine is on the same network as the PS4, or is reachable over the internet.
+      </p>
+      <div id="ip-list" class="ip-list">
+        <span class="loading">Loading…</span>
+      </div>
+    </section>
+
+    <!-- ── PS4 Setup Guide ─────────────────────────────────────────────── -->
+    <section class="card instructions">
+      <h2>PS4 Setup Guide</h2>
+      <p class="hint">
+        Follow these steps on your friend's PS4. You only need to do this once.
+      </p>
+
+      <ol class="steps">
+        <li>
+          <strong>Open PS4 Settings</strong>
+          <p>From the home screen go to <kbd>Settings</kbd> → <kbd>Network</kbd> → <kbd>Set Up Internet Connection</kbd>.</p>
+        </li>
+        <li>
+          <strong>Choose connection type</strong>
+          <p>Select <kbd>Use Wi-Fi</kbd> or <kbd>Use a LAN Cable</kbd> depending on how the PS4 is connected.</p>
+        </li>
+        <li>
+          <strong>Select Custom</strong>
+          <p>Choose <kbd>Custom</kbd> (not Easy) so you can manually set the DNS.</p>
+        </li>
+        <li>
+          <strong>Keep IP Address on Automatic</strong>
+          <p>Leave IP Address Settings set to <kbd>Automatic</kbd>.</p>
+        </li>
+        <li>
+          <strong>Set DHCP Host Name</strong>
+          <p>Choose <kbd>Do Not Specify</kbd>.</p>
+        </li>
+        <li>
+          <strong>Set DNS to Manual</strong>
+          <p>Change DNS Settings to <kbd>Manual</kbd>, then set:</p>
+          <ul>
+            <li><strong>Primary DNS:</strong> <span class="dns-ip" id="guide-ip">see "Your Server's IP" above</span></li>
+            <li><strong>Secondary DNS:</strong> <code>8.8.8.8</code></li>
+          </ul>
+        </li>
+        <li>
+          <strong>Finish the setup</strong>
+          <p>Leave MTU as <kbd>Automatic</kbd> and Proxy Server as <kbd>Do Not Use</kbd>. Save and test the connection (it may warn — that's fine).</p>
+        </li>
+        <li>
+          <strong>Open Minecraft Bedrock</strong>
+          <p>Launch Minecraft on the PS4 and go to <kbd>Play</kbd> → <kbd>Servers</kbd>. You'll see the Featured Servers list.</p>
+        </li>
+        <li>
+          <strong>Join any Featured Server</strong>
+          <p>
+            Tap <em>any</em> featured server (e.g. "The Hive", "CubeCraft", etc.).
+            Our DNS will redirect it to this machine, which immediately transfers
+            the player to your actual Geyser server.
+          </p>
+        </li>
+      </ol>
+
+      <div class="tip-box">
+        <strong>Tip:</strong> To undo the redirect later, just go back into PS4 Network Settings and change DNS back to <kbd>Automatic</kbd>.
+      </div>
+    </section>
+
+    <!-- ── How it works ───────────────────────────────────────────────── -->
+    <section class="card">
+      <h2>How It Works</h2>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-icon">🎮</div>
+          <div>PS4 tries to join a Featured Server (e.g. The Hive)</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-icon">🔀</div>
+          <div>DNS query intercepted — returns <em>this machine's</em> IP instead of The Hive's</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-icon">🖥</div>
+          <div>PS4 connects to our Bedrock Redirect Server on port 19132</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-icon">⚡</div>
+          <div>Redirect server sends a Transfer packet pointing to your Geyser server</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-icon">⛏</div>
+          <div>PS4 connects to Geyser, which translates Bedrock → Java, and your friend is in!</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>MC Bedrock Connector &mdash; self-hosted, no app needed.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
