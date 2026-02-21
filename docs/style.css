@@ -1,0 +1,310 @@
+/* ── Reset & base ──────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:          #0f1117;
+  --surface:     #1a1d27;
+  --surface2:    #22263a;
+  --border:      #2e3350;
+  --text:        #e8eaf6;
+  --text-dim:    #7b82a8;
+  --green:       #4cde80;
+  --green-dark:  #1a6636;
+  --accent:      #5b8def;
+  --accent-dark: #1e3a6e;
+  --radius:      12px;
+  --font:        'Inter', system-ui, sans-serif;
+  --mono:        'JetBrains Mono', 'Fira Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family:      var(--font);
+  background-color: var(--bg);
+  color:            var(--text);
+  line-height:      1.65;
+  font-size:        16px;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Nav ───────────────────────────────────────────────────────────────────── */
+nav {
+  position:         sticky;
+  top:              0;
+  z-index:          100;
+  background:       rgba(15, 17, 23, 0.88);
+  backdrop-filter:  blur(12px);
+  border-bottom:    1px solid var(--border);
+}
+
+.nav-inner {
+  max-width:      1100px;
+  margin:         0 auto;
+  padding:        0 24px;
+  height:         60px;
+  display:        flex;
+  align-items:    center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-weight: 700;
+  font-size:   1.05rem;
+  letter-spacing: .01em;
+}
+
+/* ── Buttons ───────────────────────────────────────────────────────────────── */
+.btn {
+  display:       inline-block;
+  padding:       10px 22px;
+  border-radius: var(--radius);
+  font-weight:   600;
+  font-size:     .95rem;
+  transition:    opacity .15s, transform .1s;
+  cursor:        pointer;
+}
+.btn:hover { opacity: .88; transform: translateY(-1px); text-decoration: none; }
+
+.btn-sm   { padding: 6px 16px; font-size: .85rem; border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 8px; }
+.btn-primary { background: var(--green); color: #0b1a10; }
+.btn-outline  { border: 1px solid var(--border); background: transparent; color: var(--text); }
+
+/* ── Hero ──────────────────────────────────────────────────────────────────── */
+.hero {
+  max-width:   860px;
+  margin:      0 auto;
+  padding:     100px 24px 80px;
+  text-align:  center;
+}
+
+.hero-badge {
+  display:       inline-block;
+  background:    var(--green-dark);
+  color:         var(--green);
+  font-size:     .78rem;
+  font-weight:   700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding:       4px 14px;
+  border-radius: 100px;
+  margin-bottom: 22px;
+}
+
+.hero h1 {
+  font-size:     clamp(2rem, 5vw, 3.2rem);
+  font-weight:   800;
+  line-height:   1.2;
+  letter-spacing: -.02em;
+  margin-bottom: 22px;
+}
+
+.hero-sub {
+  font-size:   1.15rem;
+  color:       var(--text-dim);
+  max-width:   600px;
+  margin:      0 auto 36px;
+}
+
+.hero-actions {
+  display:    flex;
+  gap:        14px;
+  justify-content: center;
+  flex-wrap:  wrap;
+  margin-bottom: 56px;
+}
+
+/* ── Terminal mockup ───────────────────────────────────────────────────────── */
+.hero-terminal {
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  text-align:    left;
+  overflow:      hidden;
+  max-width:     540px;
+  margin:        0 auto;
+  box-shadow:    0 20px 60px rgba(0,0,0,.5);
+}
+
+.terminal-bar {
+  background: var(--surface2);
+  padding:    10px 14px;
+  display:    flex;
+  align-items: center;
+  gap:        8px;
+}
+.dot          { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.dot.red      { background: #ff5f57; }
+.dot.yellow   { background: #ffbd2e; }
+.dot.green    { background: #28c840; }
+.terminal-title { flex: 1; text-align: center; font-size: .8rem; color: var(--text-dim); }
+
+.hero-terminal pre {
+  font-family: var(--mono);
+  font-size:   .88rem;
+  padding:     20px 22px;
+  line-height: 1.8;
+  color:       var(--text);
+}
+
+.c-dim   { color: var(--text-dim); }
+.c-green { color: var(--green); }
+
+/* ── Sections ──────────────────────────────────────────────────────────────── */
+.section {
+  max-width: 1100px;
+  margin:    0 auto;
+  padding:   80px 24px;
+}
+
+.section.alt {
+  max-width:  100%;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.section.alt > * { max-width: 860px; margin-left: auto; margin-right: auto; }
+
+.section h2 {
+  font-size:     clamp(1.6rem, 3vw, 2.2rem);
+  font-weight:   800;
+  text-align:    center;
+  margin-bottom: 10px;
+  letter-spacing: -.02em;
+}
+
+.section-sub {
+  text-align:    center;
+  color:         var(--text-dim);
+  margin-bottom: 52px;
+}
+
+/* ── Steps grid (How it works) ─────────────────────────────────────────────── */
+.steps-grid {
+  display:               grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap:                   20px;
+}
+
+.step-card {
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  padding:       28px 24px;
+}
+
+.step-num {
+  width:         36px;
+  height:        36px;
+  background:    var(--accent-dark);
+  color:         var(--accent);
+  border-radius: 8px;
+  font-weight:   700;
+  font-size:     1rem;
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.step-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+.step-card p  { font-size: .93rem; color: var(--text-dim); }
+.step-card code {
+  background: var(--surface2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: .85em;
+  color: var(--green);
+}
+
+/* ── Setup list ────────────────────────────────────────────────────────────── */
+.setup-list {
+  display:        flex;
+  flex-direction: column;
+  gap:            32px;
+}
+
+.setup-step {
+  display:     flex;
+  gap:         20px;
+  align-items: flex-start;
+}
+
+.setup-icon {
+  font-size:   2rem;
+  flex-shrink: 0;
+  width:       52px;
+  text-align:  center;
+  padding-top: 2px;
+}
+
+.setup-step h3   { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+.setup-step p    { font-size: .93rem; color: var(--text-dim); margin-bottom: 8px; }
+.setup-step ol,
+.setup-step ul   { padding-left: 20px; font-size: .93rem; color: var(--text-dim); }
+.setup-step li   { margin-bottom: 4px; }
+
+.setup-step pre {
+  background:    var(--bg);
+  border:        1px solid var(--border);
+  border-radius: 8px;
+  padding:       12px 16px;
+  margin:        10px 0;
+}
+.setup-step pre code {
+  font-family: var(--mono);
+  font-size:   .9rem;
+  color:       var(--green);
+  background:  none;
+  padding:     0;
+}
+
+.setup-step code {
+  background: var(--surface2);
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-family: var(--mono);
+  font-size: .85em;
+  color: var(--green);
+}
+
+/* ── Requirements ──────────────────────────────────────────────────────────── */
+.req-grid {
+  display:               grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap:                   18px;
+}
+
+.req-card {
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  padding:       24px;
+}
+
+.req-icon    { font-size: 1.8rem; margin-bottom: 12px; }
+.req-card strong { display: block; font-size: .95rem; margin-bottom: 8px; }
+.req-card p  { font-size: .88rem; color: var(--text-dim); }
+
+/* ── Footer ────────────────────────────────────────────────────────────────── */
+footer {
+  text-align:  center;
+  padding:     48px 24px;
+  border-top:  1px solid var(--border);
+  color:       var(--text-dim);
+  font-size:   .9rem;
+}
+footer p      { margin-bottom: 8px; }
+footer a      { color: var(--text-dim); }
+footer a:hover{ color: var(--text); }
+
+/* ── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .hero { padding: 64px 20px 60px; }
+  .setup-step { flex-direction: column; }
+  .setup-icon { width: auto; }
+}

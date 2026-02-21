@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MC Bedrock Connector — Let PS4 &amp; Console Players Join Your Server</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── NAV ──────────────────────────────────────────────────────────── -->
+  <nav>
+    <div class="nav-inner">
+      <span class="nav-logo">⛏ MC Bedrock Connector</span>
+      <a class="btn btn-sm" href="https://github.com/NotSussy/Claude-test" target="_blank" rel="noopener">
+        View on GitHub
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── HERO ─────────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-badge">Free &amp; Open Source</div>
+    <h1>Let your PS4 &amp; console friends<br/>join your Minecraft server</h1>
+    <p class="hero-sub">
+      A self-hosted tool that silently redirects Minecraft's featured servers to
+      your own Geyser/Bedrock server — no mods, no port-forwarding tricks, no cost.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://github.com/NotSussy/Claude-test/archive/refs/heads/main.zip">
+        ⬇ Download ZIP
+      </a>
+      <a class="btn btn-outline" href="#setup">
+        How to set it up →
+      </a>
+    </div>
+
+    <div class="hero-terminal">
+      <div class="terminal-bar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span class="terminal-title">Terminal</span>
+      </div>
+      <pre><span class="c-dim">$</span> npm install
+<span class="c-dim">$</span> sudo node server.js
+
+<span class="c-green">[TLS]  Certificate ready.</span>
+<span class="c-green">[DNS]  Listening on port 53.</span>
+<span class="c-green">[Web]  https://192.168.1.42</span>
+<span class="c-dim">       Open the link above to configure your server.</span></pre>
+    </div>
+  </section>
+
+  <!-- ── HOW IT WORKS ──────────────────────────────────────────────────── -->
+  <section class="section" id="how">
+    <h2>How it works</h2>
+    <p class="section-sub">Three moving parts, all on your computer.</p>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>DNS redirect</h3>
+        <p>
+          When a PS4 tries to connect to a Minecraft featured server
+          (The Hive, CubeCraft, etc.) it asks DNS for the IP.
+          This tool answers <em>your</em> IP instead.
+        </p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Bedrock relay</h3>
+        <p>
+          The PS4 connects to your machine. A lightweight relay
+          accepts the Bedrock handshake and sends a
+          <code>Transfer</code> packet pointing to your real Geyser server.
+        </p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Web UI</h3>
+        <p>
+          A local HTTPS dashboard lets you change the target server
+          without touching config files or restarting anything.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SETUP ─────────────────────────────────────────────────────────── -->
+  <section class="section alt" id="setup">
+    <h2>Step-by-step setup</h2>
+    <p class="section-sub">Takes about 5 minutes.</p>
+
+    <div class="setup-list">
+
+      <div class="setup-step">
+        <div class="setup-icon">💻</div>
+        <div>
+          <h3>1 — Install Node.js</h3>
+          <p>Download and install <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js LTS</a> if you don't have it. Run <code>node -v</code> in Terminal to check — any version 18+ is fine.</p>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="setup-icon">📦</div>
+        <div>
+          <h3>2 — Download this project</h3>
+          <p>
+            Click <strong>Download ZIP</strong> above, unzip it, then open Terminal and navigate into the folder:<br/>
+            <code>cd ~/Downloads/Claude-test-main</code>
+          </p>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="setup-icon">⚙️</div>
+        <div>
+          <h3>3 — Install dependencies</h3>
+          <p>In the same Terminal window run:</p>
+          <pre><code>npm install</code></pre>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="setup-icon">🚀</div>
+        <div>
+          <h3>4 — Start the server</h3>
+          <p>Run it with admin permissions (needed for port 53 and 443):</p>
+          <pre><code>sudo node server.js</code></pre>
+          <p>You'll see a local HTTPS link appear in the Terminal — open it in your browser. Your browser will warn about the certificate; click <strong>Advanced → Proceed</strong>. That's normal.</p>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="setup-icon">🎮</div>
+        <div>
+          <h3>5 — Configure your PS4</h3>
+          <p>On the PS4:</p>
+          <ol>
+            <li>Settings → Network → Set Up Internet Connection</li>
+            <li>Choose Wi-Fi or LAN → <strong>Custom</strong></li>
+            <li>IP Address: <strong>Automatic</strong></li>
+            <li>DHCP Host Name: <strong>Do Not Specify</strong></li>
+            <li>DNS Settings: <strong>Manual</strong>
+              <ul>
+                <li>Primary DNS: <em>(your computer's IP — shown in the web UI)</em></li>
+                <li>Secondary DNS: <code>8.8.8.8</code></li>
+              </ul>
+            </li>
+            <li>MTU: Automatic &nbsp;|&nbsp; Proxy: Do Not Use → <strong>Save</strong></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="setup-icon">✅</div>
+        <div>
+          <h3>6 — Join!</h3>
+          <p>
+            Open Minecraft on the PS4 → Play → Servers → tap
+            <strong>any featured server</strong> (doesn't matter which one).
+            You'll land on your server instead.
+          </p>
+          <p>To undo it later, go back to PS4 network settings and switch DNS back to <strong>Automatic</strong>.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── REQUIREMENTS ──────────────────────────────────────────────────── -->
+  <section class="section" id="requirements">
+    <h2>Requirements</h2>
+    <div class="req-grid">
+      <div class="req-card">
+        <div class="req-icon">🖥</div>
+        <strong>A computer that stays on</strong>
+        <p>Mac, Windows, or Linux. Must be on and connected while friends are playing.</p>
+      </div>
+      <div class="req-card">
+        <div class="req-icon">🌐</div>
+        <strong>Same network</strong>
+        <p>Your computer and the PS4 must be on the same Wi-Fi or home network.</p>
+      </div>
+      <div class="req-card">
+        <div class="req-icon">⚙️</div>
+        <strong>A Geyser server</strong>
+        <p>You need a Java Edition server running <a href="https://geysermc.org" target="_blank" rel="noopener">GeyserMC</a> (lets Bedrock players join Java servers).</p>
+      </div>
+      <div class="req-card">
+        <div class="req-icon">📦</div>
+        <strong>Node.js 18+</strong>
+        <p>The runtime that powers this tool. Free download at <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ────────────────────────────────────────────────────────── -->
+  <footer>
+    <p>MC Bedrock Connector — open source, free forever.</p>
+    <p>
+      <a href="https://github.com/NotSussy/Claude-test" target="_blank" rel="noopener">GitHub</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/NotSussy/Claude-test/issues" target="_blank" rel="noopener">Report a bug</a>
+    </p>
+  </footer>
+
+</body>
+</html>
