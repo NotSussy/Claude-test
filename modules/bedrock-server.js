@@ -24,17 +24,21 @@ const STATUS = {
   error: null,
 };
 
-function startBedrockServer(targetHost, targetPort, listenPort = 19132, bedrockVersion = '1.21.50') {
+function startBedrockServer(targetHost, targetPort, listenPort = 19132, bedrockVersion = '1.21.50', localIP = null) {
   if (server) {
     stopBedrockServer();
   }
 
+  const configured = !!(targetHost && targetHost.trim());
+
   STATUS.error = null;
-  STATUS.targetHost = targetHost;
+  STATUS.targetHost = targetHost || null;
   STATUS.targetPort = targetPort;
 
-  console.log(`[Bedrock] Starting redirect server on port ${listenPort}`);
-  console.log(`[Bedrock] Will redirect all players → ${targetHost}:${targetPort}`);
+  const motdText  = configured ? `Redirecting to ${targetHost}` : 'Open web UI to configure';
+  const levelName = configured ? 'Connecting...' : 'MC Bedrock Connector';
+
+  console.log(`[Bedrock] Starting server on port ${listenPort} (${configured ? `→ ${targetHost}:${targetPort}` : 'unconfigured — LAN discovery only'})`);
 
   try {
     server = bedrock.createServer({
@@ -44,8 +48,8 @@ function startBedrockServer(targetHost, targetPort, listenPort = 19132, bedrockV
       version: bedrockVersion,
       maxPlayers: 20,
       motd: {
-        levelName: 'Connecting...',
-        motd: `Redirecting to ${targetHost}`,
+        levelName,
+        motd: motdText,
       },
     });
 
@@ -55,11 +59,21 @@ function startBedrockServer(targetHost, targetPort, listenPort = 19132, bedrockV
       const playerName = client.profile?.name || client.username || 'unknown';
       console.log(`[Bedrock] Player connecting: ${playerName}`);
 
-      // As soon as the client has completed login and is ready for game packets,
-      // send the Transfer packet. The client disconnects from us and connects
-      // directly to the target Geyser server.
       client.on('join', () => {
         const name = client.profile?.name || client.username || 'unknown';
+
+        // When unconfigured, disconnect with instructions instead of transferring
+        if (!configured) {
+          const uiURL = localIP ? `https://${localIP}` : 'https://[server-ip]';
+          console.log(`[Bedrock] Disconnecting "${name}" — server not configured`);
+          try {
+            client.disconnect(
+              `MC Bedrock Connector is not configured yet.\nVisit ${uiURL} on any browser to set your target server.`
+            );
+          } catch (_) {}
+          return;
+        }
+
         console.log(`[Bedrock] Redirecting "${name}" → ${targetHost}:${targetPort}`);
 
         try {
@@ -94,7 +108,7 @@ function startBedrockServer(targetHost, targetPort, listenPort = 19132, bedrockV
     });
 
     STATUS.running = true;
-    console.log(`[Bedrock] Redirect server listening on port ${listenPort}`);
+    console.log(`[Bedrock] Server listening on port ${listenPort}`);
   } catch (err) {
     STATUS.running = false;
     STATUS.error = err.message;

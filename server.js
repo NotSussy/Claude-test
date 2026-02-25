@@ -116,9 +116,10 @@ app.post('/api/config', (req, res) => {
   config.bedrockVersion    = bedrockVersion              || '1.21.50';
   saveConfig(config);
 
+  const localIP = getLocalIPAddresses()[0]?.address || getLocalIP();
   try {
     stopBedrockServer();
-    startBedrockServer(config.targetHost, config.targetPort, config.bedrockListenPort, config.bedrockVersion);
+    startBedrockServer(config.targetHost, config.targetPort, config.bedrockListenPort, config.bedrockVersion, localIP);
     res.json({ success: true, config });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -169,23 +170,23 @@ async function main() {
     }
   }
 
-  // 3. Bedrock redirect server
-  if (config.targetHost) {
-    try {
-      startBedrockServer(
-        config.targetHost,
-        config.targetPort,
-        config.bedrockListenPort,
-        config.bedrockVersion
-      );
-    } catch (err) {
-      if (err.code === 'EADDRINUSE') {
-        console.error(`[Bedrock] Port ${config.bedrockListenPort} already in use — is Geyser on this machine?`);
-        console.error('  → Use a different bedrockListenPort in the web UI, or move Geyser to another port.');
-      }
+  // 3. Bedrock redirect server — always start so it shows up on LAN via RakNet ping
+  const localIP = getLocalIPAddresses()[0]?.address || getLocalIP();
+  try {
+    startBedrockServer(
+      config.targetHost || null,
+      config.targetPort,
+      config.bedrockListenPort,
+      config.bedrockVersion,
+      localIP
+    );
+  } catch (err) {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`[Bedrock] Port ${config.bedrockListenPort} already in use — is Geyser on this machine?`);
+      console.error('  → Use a different bedrockListenPort in the web UI, or move Geyser to another port.');
+    } else {
+      console.error('[Bedrock] Failed to start:', err.message);
     }
-  } else {
-    console.log('[Bedrock] No target configured yet — visit the web UI to set one.');
   }
 
   // 4a. HTTPS server

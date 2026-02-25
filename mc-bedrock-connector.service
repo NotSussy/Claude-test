@@ -1,0 +1,18 @@
+[Unit]
+Description=MC Bedrock Connector
+Documentation=https://github.com/NotSussy/Claude-test
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=INSTALL_DIR
+ExecStart=/usr/bin/node INSTALL_DIR/server.js
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
