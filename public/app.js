@@ -47,7 +47,8 @@ async function refreshStatus() {
       setStatusItem('s-target', 'warn', 'Not configured');
     }
 
-    // IP list
+    // LAN box + IP list
+    renderLANBox(s);
     renderIPs(s.localIPs || [], s.primaryIP);
 
     // Update DNS IP in the guide
@@ -63,6 +64,53 @@ async function refreshStatus() {
   }
 }
 
+// ── LAN box ────────────────────────────────────────────────────────────────
+
+let _lanIP   = null;
+let _lanPort = 19132;
+
+function renderLANBox(status) {
+  const ipEl    = document.getElementById('lan-ip');
+  const portEl  = document.getElementById('lan-port');
+  const badge   = document.getElementById('lan-badge');
+  const badgeTx = document.getElementById('lan-badge-text');
+  if (!ipEl) return;
+
+  _lanIP   = status.primaryIP  || null;
+  _lanPort = status.bedrockListenPort || 19132;
+
+  ipEl.textContent   = _lanIP   || '—';
+  portEl.textContent = _lanPort;
+
+  if (badge) {
+    if (status.bedrock?.running) {
+      badge.className  = 'lan-badge ok';
+      badgeTx.textContent = 'Broadcasting on LAN';
+    } else if (status.bedrock?.error) {
+      badge.className  = 'lan-badge error';
+      badgeTx.textContent = 'Bedrock server error';
+    } else {
+      badge.className  = 'lan-badge warn';
+      badgeTx.textContent = 'Not broadcasting yet';
+    }
+  }
+}
+
+function copyLAN(what) {
+  const text = what === 'full' ? `${_lanIP}:${_lanPort}` : _lanIP;
+  if (!text || text === 'null') return;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btnId = what === 'full' ? 'btn-copy-full' : 'btn-copy-ip';
+    const btn   = document.getElementById(btnId);
+    if (!btn) return;
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+  });
+}
+
 // ── IP display ─────────────────────────────────────────────────────────────
 
 function renderIPs(ips, primary) {
@@ -71,6 +119,12 @@ function renderIPs(ips, primary) {
 
   if (!ips.length) {
     container.innerHTML = '<span class="loading">No network interfaces found</span>';
+    return;
+  }
+
+  // Only show the extra chips if there are multiple interfaces
+  if (ips.length <= 1) {
+    container.innerHTML = '';
     return;
   }
 
@@ -84,7 +138,6 @@ function renderIPs(ips, primary) {
 
 function copyIP(ip) {
   navigator.clipboard.writeText(ip).then(() => {
-    // Brief visual feedback
     const chips = document.querySelectorAll('.ip-chip');
     chips.forEach((c) => {
       if (c.textContent.trim().startsWith(ip)) {

@@ -206,6 +206,83 @@ input:focus {
   margin-bottom: 16px;
 }
 
+/* ── LAN Box ─────────────────────────────────────────────────────────────── */
+.lan-box {
+  background: var(--bg);
+  border: 2px solid var(--green);
+  border-radius: var(--radius);
+  padding: 28px 24px 20px;
+  text-align: center;
+  margin-bottom: 14px;
+  box-shadow: 0 0 18px rgba(78,204,163,0.08);
+}
+
+.lan-address {
+  font-family: var(--font-mono);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: 2px;
+  text-shadow: 0 0 14px rgba(78,204,163,0.35);
+  margin-bottom: 14px;
+  word-break: break-all;
+  line-height: 1.2;
+}
+
+.lan-colon {
+  color: var(--text-dim);
+  margin: 0 2px;
+}
+
+.lan-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(78,204,163,0.08);
+  border: 1px solid var(--green-dim);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 0.8rem;
+  color: var(--green);
+  margin-bottom: 18px;
+}
+
+.lan-badge .dot {
+  width: 8px;
+  height: 8px;
+  background: var(--text-dim);
+}
+
+.lan-badge.ok .dot {
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+}
+
+.lan-badge.warn .dot { background: var(--yellow); }
+.lan-badge.error .dot { background: var(--red); }
+
+.lan-copy-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-copy {
+  background: transparent;
+  border: 1px solid var(--green);
+  color: var(--green);
+  border-radius: var(--radius);
+  padding: 7px 20px;
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-copy:hover  { background: rgba(78,204,163,0.12); }
+.btn-copy.copied { background: rgba(78,204,163,0.22); }
+
 /* ── IP list ─────────────────────────────────────────────────────────────── */
 .ip-list {
   display: flex;

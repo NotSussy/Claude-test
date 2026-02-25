@@ -98,13 +98,29 @@
       </form>
     </section>
 
-    <!-- ── Your server's IP (for PS4 DNS) ─────────────────────────────── -->
+    <!-- ── LAN Server Box ──────────────────────────────────────────────── -->
     <section class="card">
-      <h2>Your Server's IP Address</h2>
+      <h2>LAN Server</h2>
       <p class="hint">
-        This is the IP you'll enter as the <strong>Primary DNS</strong> on the PS4.
-        Make sure this machine is on the same network as the PS4, or is reachable over the internet.
+        Any Minecraft Bedrock device on this network will see this server in their LAN list automatically.
+        Use the IP below as the <strong>Primary DNS</strong> on the PS4.
       </p>
+
+      <div class="lan-box">
+        <div class="lan-address">
+          <span id="lan-ip">—</span><span class="lan-colon">:</span><span id="lan-port">19132</span>
+        </div>
+        <div class="lan-badge" id="lan-badge">
+          <span class="dot"></span>
+          <span id="lan-badge-text">checking…</span>
+        </div>
+        <div class="lan-copy-row">
+          <button class="btn-copy" id="btn-copy-ip"   onclick="copyLAN('ip')">Copy IP</button>
+          <button class="btn-copy" id="btn-copy-full" onclick="copyLAN('full')">Copy IP:Port</button>
+        </div>
+      </div>
+
+      <!-- All interfaces shown below for multi-NIC machines -->
       <div id="ip-list" class="ip-list">
         <span class="loading">Loading…</span>
       </div>
