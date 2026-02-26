@@ -10,51 +10,21 @@
 
   <div class="container">
 
-    <header>
-      <div class="logo">⛏</div>
-      <h1>Bedrock Connector</h1>
-      <p class="subtitle">Show any server in your Minecraft LAN list</p>
-    </header>
+    <h1>⛏ Bedrock Connector</h1>
 
-    <!-- Server config form -->
-    <section class="card" id="config-card">
-      <h2>Your Server</h2>
+    <form id="form">
+      <input id="host" type="text" placeholder="Server address  (e.g. play.example.com)" autocomplete="off" spellcheck="false" />
+      <input id="port" type="number" value="19132" min="1" max="65535" />
+      <button type="submit" id="submit-btn">Connect</button>
+    </form>
 
-      <form id="form">
-        <div class="field">
-          <label for="host">Server Address</label>
-          <input id="host" type="text" placeholder="play.example.com  or  1.2.3.4" autocomplete="off" spellcheck="false" />
-        </div>
+    <div id="status" class="status">
+      <span class="dot" id="dot"></span>
+      <span id="status-text">Starting…</span>
+    </div>
 
-        <div class="field field-port">
-          <label for="port">Port</label>
-          <input id="port" type="number" value="19132" min="1" max="65535" />
-        </div>
-
-        <button class="btn" type="submit" id="submit-btn">Connect</button>
-        <span class="msg" id="msg"></span>
-      </form>
-    </section>
-
-    <!-- LAN status -->
-    <section class="card lan-card" id="lan-card">
-      <div class="lan-indicator" id="lan-indicator">
-        <span class="dot" id="lan-dot"></span>
-        <span id="lan-label">Starting…</span>
-      </div>
-      <div class="lan-address" id="lan-address">—</div>
-      <p class="lan-hint">Open Minecraft &rarr; <strong>Play</strong> &rarr; <strong>LAN Games</strong></p>
-    </section>
-
-    <!-- Advanced (collapsed by default) -->
-    <details class="advanced">
-      <summary>Advanced</summary>
-      <div class="advanced-inner">
-        <label for="version">Bedrock Version</label>
-        <input id="version" type="text" placeholder="e.g. 1.21.50" />
-        <p class="hint">Must match the client's Minecraft version. Usually you don't need to change this.</p>
-      </div>
-    </details>
+    <div class="lan-address" id="lan-address">—</div>
+    <p class="lan-hint">Open Minecraft → Play → LAN Games</p>
 
   </div>
 

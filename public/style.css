@@ -1,16 +1,15 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:      #111827;
-  --surface: #1f2937;
-  --border:  #374151;
-  --green:   #34d399;
-  --yellow:  #fbbf24;
-  --red:     #f87171;
-  --text:    #f3f4f6;
-  --dim:     #9ca3af;
-  --radius:  10px;
-  --mono:    'Courier New', monospace;
+  --bg:     #111827;
+  --surface:#1f2937;
+  --border: #374151;
+  --green:  #34d399;
+  --yellow: #fbbf24;
+  --red:    #f87171;
+  --text:   #f3f4f6;
+  --dim:    #9ca3af;
+  --mono:   'Courier New', monospace;
 }
 
 body {
@@ -19,92 +18,51 @@ body {
   color: var(--text);
   min-height: 100vh;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding: 40px 16px 60px;
+  padding: 24px 16px;
 }
 
 .container {
   width: 100%;
-  max-width: 480px;
+  max-width: 440px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 20px;
-}
-
-/* ── Header ─────────────────────────────────────────────────────────────── */
-header {
   text-align: center;
-  padding: 8px 0 4px;
-}
-
-.logo {
-  font-size: 3rem;
-  filter: drop-shadow(0 0 10px rgba(52,211,153,0.5));
-  margin-bottom: 8px;
 }
 
 h1 {
-  font-size: 1.75rem;
+  font-size: 1.6rem;
   font-family: var(--mono);
   color: var(--green);
   letter-spacing: 1px;
 }
 
-.subtitle {
-  color: var(--dim);
-  font-size: 0.9rem;
-  margin-top: 4px;
-}
-
-/* ── Card ────────────────────────────────────────────────────────────────── */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px;
-}
-
-.card h2 {
-  font-size: 0.8rem;
-  font-family: var(--mono);
-  color: var(--dim);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 18px;
-}
-
 /* ── Form ────────────────────────────────────────────────────────────────── */
-.field {
-  margin-bottom: 16px;
-}
-
-.field-port {
-  width: 140px;
-}
-
-label {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--dim);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 6px;
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 input[type="text"],
 input[type="number"] {
   width: 100%;
-  padding: 10px 12px;
-  background: var(--bg);
+  padding: 12px 14px;
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 8px;
   color: var(--text);
   font-size: 1rem;
   font-family: var(--mono);
+  text-align: center;
   transition: border-color 0.15s;
 }
+
+input[type="number"] { max-width: 140px; align-self: center; }
 
 input:focus {
   outline: none;
@@ -112,13 +70,12 @@ input:focus {
   box-shadow: 0 0 0 3px rgba(52,211,153,0.12);
 }
 
-.btn {
-  margin-top: 4px;
+button {
+  padding: 12px;
   background: var(--green);
   color: #0a1a12;
   border: none;
-  border-radius: 6px;
-  padding: 11px 28px;
+  border-radius: 8px;
   font-size: 1rem;
   font-weight: 700;
   font-family: var(--mono);
@@ -126,38 +83,17 @@ input:focus {
   transition: background 0.15s, transform 0.1s;
 }
 
-.btn:hover   { background: #2ec485; }
-.btn:active  { transform: scale(0.97); }
-.btn:disabled { opacity: 0.5; cursor: default; }
+button:hover   { background: #2ec485; }
+button:active  { transform: scale(0.97); }
+button:disabled { opacity: 0.5; cursor: default; }
 
-.msg {
-  display: inline-block;
-  margin-left: 12px;
-  font-size: 0.9rem;
-  color: var(--green);
-  opacity: 0;
-  transition: opacity 0.2s;
-  vertical-align: middle;
-}
-
-.msg.visible       { opacity: 1; }
-.msg.visible.error { color: var(--red); }
-
-/* ── LAN card ────────────────────────────────────────────────────────────── */
-.lan-card {
-  text-align: center;
-  padding: 28px 24px;
-  border-color: var(--green);
-  box-shadow: 0 0 20px rgba(52,211,153,0.06);
-}
-
-.lan-indicator {
-  display: inline-flex;
+/* ── Status ──────────────────────────────────────────────────────────────── */
+.status {
+  display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.85rem;
   color: var(--dim);
-  margin-bottom: 14px;
+  font-size: 0.85rem;
 }
 
 .dot {
@@ -166,69 +102,25 @@ input:focus {
   border-radius: 50%;
   background: var(--dim);
   flex-shrink: 0;
-  transition: background 0.3s;
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
 .dot.green  { background: var(--green);  box-shadow: 0 0 6px var(--green); }
 .dot.yellow { background: var(--yellow); }
 .dot.red    { background: var(--red);    }
 
+/* ── LAN address ─────────────────────────────────────────────────────────── */
 .lan-address {
   font-family: var(--mono);
-  font-size: 1.9rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--green);
   letter-spacing: 2px;
   text-shadow: 0 0 16px rgba(52,211,153,0.3);
-  margin-bottom: 12px;
   word-break: break-all;
 }
 
 .lan-hint {
-  font-size: 0.85rem;
-  color: var(--dim);
-}
-
-.lan-hint strong { color: var(--text); }
-
-/* ── Advanced ────────────────────────────────────────────────────────────── */
-.advanced {
   color: var(--dim);
   font-size: 0.85rem;
-}
-
-.advanced summary {
-  cursor: pointer;
-  user-select: none;
-  padding: 4px 2px;
-  color: var(--dim);
-  list-style: none;
-}
-
-.advanced summary::-webkit-details-marker { display: none; }
-
-.advanced summary::before {
-  content: '› ';
-  font-family: var(--mono);
-}
-
-details[open] summary::before { content: '⌄ '; }
-
-.advanced-inner {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px;
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.advanced-inner label { margin-bottom: 0; }
-
-.hint {
-  color: var(--dim);
-  font-size: 0.82rem;
-  line-height: 1.5;
 }
